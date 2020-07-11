@@ -13,7 +13,7 @@ class MainActivityVMFactory @Inject constructor(private val repository: Reposito
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
-            return MainActivityVMFactory(repository) as T
+            return MainActivityViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown class name")
     }
