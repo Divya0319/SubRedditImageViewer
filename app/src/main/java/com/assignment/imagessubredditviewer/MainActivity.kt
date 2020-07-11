@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.assignment.imageloader.ImagesListAdapter
+import com.assignment.imageloader.SubRedditJsonResponse
 import com.assignment.imagessubredditviewer.commons.Utils
 import com.assignment.imagessubredditviewer.network.ApiResponse
 import com.assignment.imagessubredditviewer.network.Status
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     private lateinit var mainActivityViewModel: MainActivityViewModel
 
-        private lateinit var mImageUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>
+    private lateinit var mImageUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>
     private lateinit var mImageListAdapter: ImagesListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         mImageUrls = mutableListOf()
 
-        mImageListAdapter = ImagesListAdapter(this, mImageUrls)
+        mImageListAdapter =
+            ImagesListAdapter(this, mImageUrls)
 
         rvImages.layoutManager = LinearLayoutManager(this)
         rvImages.adapter = mImageListAdapter
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel =
             ViewModelProvider(this, mainActivityVMFactory)[MainActivityViewModel::class.java]
 
-        mainActivityViewModel.homeScreenResponse.observe(this, Observer { consumeApiResponse(it) })
+        mainActivityViewModel.imagesAPIResponse.observe(this, Observer { consumeApiResponse(it) })
 
         mainActivityViewModel.hitImagesApi()
     }
@@ -97,8 +100,9 @@ class MainActivity : AppCompatActivity() {
         val jsonObject = data?.asJsonObject
         val jsonPOJO = gson.fromJson(jsonObject.toString(), SubRedditJsonResponse::class.java)
         for (i in jsonPOJO.data?.children!!.indices) {
-            mImageUrls[i] = jsonPOJO.data?.children!![i]
+            mImageUrls.add(jsonPOJO.data?.children!![i])
         }
+        mImageListAdapter.setValues(mImageUrls)
         mImageListAdapter.notifyDataSetChanged()
 
 

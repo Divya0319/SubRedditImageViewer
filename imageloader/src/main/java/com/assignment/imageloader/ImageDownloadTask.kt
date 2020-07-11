@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -20,7 +19,7 @@ class ImageDownloadTask constructor() : AsyncTask<String, Void, Bitmap>() {
 
     private var imageUrl: String? = null
 
-    private var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
+    private var adapter: ImagesListAdapter? = null
 
     private var cache: ImagesCache? = null
 
@@ -32,7 +31,7 @@ class ImageDownloadTask constructor() : AsyncTask<String, Void, Bitmap>() {
     private var ivImageView: ImageView? = null
 
     constructor(
-        adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
+        adapter: ImagesListAdapter,
         desiredWidth: Int,
         desiredHeight: Int
     ) : this() {

@@ -1,4 +1,4 @@
-package com.assignment.imagessubredditviewer
+package com.assignment.imageloader
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.assignment.imageloader.ImageDownloadTask
-import com.assignment.imageloader.ImagesCache
 
 /**
  * Created by Divya Gupta.
@@ -17,7 +15,7 @@ class ImagesListAdapter(
     private var imagesUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>
 ) : RecyclerView.Adapter<ImagesListAdapter.ImagesViewHolder>() {
 
-    private var imageDownloadTask = ImageDownloadTask(this, 300, 300)
+    private lateinit var imageDownloadTask: ImageDownloadTask
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesViewHolder {
@@ -37,6 +35,7 @@ class ImagesListAdapter(
             holder.ivImage.setImageBitmap(bmp)
         } else {
             holder.ivImage.setImageBitmap(null)
+            imageDownloadTask = ImageDownloadTask(this, 300, 300)
             imageDownloadTask.execute(imagesData?.url)
         }
     }

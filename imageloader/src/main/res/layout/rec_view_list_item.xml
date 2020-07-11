@@ -9,7 +9,6 @@
         android:id="@+id/iv_image_from_reddit"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:contentDescription="@string/redditimage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

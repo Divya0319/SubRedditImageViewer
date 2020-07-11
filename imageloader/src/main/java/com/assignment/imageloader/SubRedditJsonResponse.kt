@@ -1,4 +1,4 @@
-package com.assignment.imagessubredditviewer
+package com.assignment.imageloader
 
 /**
  * Created by Divya Gupta.

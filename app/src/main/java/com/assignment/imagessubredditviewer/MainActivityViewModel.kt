@@ -15,17 +15,17 @@ import io.reactivex.schedulers.Schedulers
 
 class MainActivityViewModel internal constructor(private val repository: Repository) : ViewModel() {
     private val disposable = CompositeDisposable()
-    private val responseHomeScreen = MutableLiveData<ApiResponse>()
-    val homeScreenResponse: LiveData<ApiResponse> get() = responseHomeScreen
+    private val responseImagesAPI = MutableLiveData<ApiResponse>()
+    val imagesAPIResponse: LiveData<ApiResponse> get() = responseImagesAPI
 
     fun hitImagesApi() {
         disposable.add(repository.executeImagesApiCall()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { responseHomeScreen.value = ApiResponse.loading() }
+            .doOnSubscribe { responseImagesAPI.value = ApiResponse.loading() }
             .subscribe(
-                { result -> responseHomeScreen.value = ApiResponse.success(result) },
-                { error -> responseHomeScreen.value = ApiResponse.error(error) }
+                { result -> responseImagesAPI.value = ApiResponse.success(result) },
+                { error -> responseImagesAPI.value = ApiResponse.error(error) }
             ))
     }
 
