@@ -1,18 +1,22 @@
 package com.assignment.imageloader
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.ByteArrayOutputStream
 
 /**
  * Created by Divya Gupta.
  */
 class ImagesListAdapter(
     val context: Context,
-    private var imagesUrls: MutableList<String>
+    private var imagesUrls: MutableList<String>,
+    private var imageClickedListener: ImageClickedListener
 ) : RecyclerView.Adapter<ImagesListAdapter.ImagesViewHolder>() {
 
     private lateinit var imageDownloadTask: ImageDownloadTask
@@ -38,6 +42,13 @@ class ImagesListAdapter(
             imageDownloadTask.execute(imagesUrls[position])
         }
 
+        holder.ivImage.setOnClickListener {
+            val stream = ByteArrayOutputStream()
+            val bitmap = (holder.ivImage.drawable as BitmapDrawable).bitmap
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val bitmapInBytes = stream.toByteArray()
+            imageClickedListener.onImageClicked(position, bitmapInBytes)
+        }
     }
 
     fun setValues(

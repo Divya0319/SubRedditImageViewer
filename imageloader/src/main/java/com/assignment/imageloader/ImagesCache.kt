@@ -11,6 +11,9 @@ open class ImagesCache {
 
     companion object {
         var cache: ImagesCache? = null
+        const val DISK_CACHE_SIZE = 1024 * 1024 * 10
+        const val DISK_CACHE_SUBDIR = "images"
+
 
         fun getInstance(): ImagesCache {
             if (cache == null) {
@@ -28,7 +31,7 @@ open class ImagesCache {
         println("cache size = $cacheSize")
 
         imagesWarehouse = object : LruCache<String, Bitmap>(cacheSize) {
-            protected fun sizeOf(key: String?, value: Bitmap): Int {
+            override fun sizeOf(key: String, value: Bitmap): Int {
                 // The cache size will be measured in kilobytes rather than number of items.
                 val bitmapByteCount = value.rowBytes * value.height
                 return bitmapByteCount / 1024

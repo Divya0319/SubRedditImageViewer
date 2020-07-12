@@ -8,11 +8,5 @@ import com.assignment.imagessubredditviewer.R
 object Constants {
     const val BASE_URL = "https://www.reddit.com"
     const val IMAGES_ENDPOINT = "/r/images/hot.json"
-
-    val IMAGES_URLS = listOf(
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_foreground
-
-    )
+    const val BITMAP_PASSED_INTENT_KEY = "BITMAP_IN_BYTES"
 }

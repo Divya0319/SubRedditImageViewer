@@ -1,6 +1,7 @@
 package com.assignment.imagessubredditviewer
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.assignment.imageloader.ImageClickedListener
 import com.assignment.imageloader.ImagesListAdapter
+import com.assignment.imagessubredditviewer.commons.Constants
 import com.assignment.imagessubredditviewer.commons.Utils
 import com.assignment.imagessubredditviewer.network.ApiResponse
 import com.assignment.imagessubredditviewer.network.Status
@@ -18,7 +21,7 @@ import com.google.gson.JsonElement
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ImageClickedListener {
 
     @Inject
     lateinit var mainActivityVMFactory: MainActivityVMFactory
@@ -46,7 +49,9 @@ class MainActivity : AppCompatActivity() {
         mImageUrls = mutableListOf()
 
         mImageListAdapter =
-            ImagesListAdapter(this, mImageUrls)
+            ImagesListAdapter(
+                this, mImageUrls, this
+            )
 
         rvImages.layoutManager = LinearLayoutManager(this)
         rvImages.adapter = mImageListAdapter
@@ -111,5 +116,11 @@ class MainActivity : AppCompatActivity() {
         mImageListAdapter.setValues(mImageUrls)
         mImageListAdapter.notifyDataSetChanged()
 
+    }
+
+    override fun onImageClicked(position: Int, bitmapArray: ByteArray) {
+        val imageDetailedIntent = Intent(this, ImageDetailedViewActivity::class.java)
+        imageDetailedIntent.putExtra(Constants.BITMAP_PASSED_INTENT_KEY, bitmapArray)
+        startActivity(imageDetailedIntent)
     }
 }
