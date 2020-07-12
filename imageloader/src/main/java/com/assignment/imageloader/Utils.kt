@@ -54,10 +54,9 @@ object Utils {
      * @return True if external storage is removable (like an SD card), false
      * otherwise.
      */
-    @get:SuppressLint("NewApi")
-    val isExternalStorageRemovable: Boolean
-        get() = Environment.isExternalStorageRemovable()
-
+    fun isExternalStorageRemovable(): Boolean {
+        return Environment.isExternalStorageRemovable()
+    }
     /**
      * Get the external app cache directory.
      *

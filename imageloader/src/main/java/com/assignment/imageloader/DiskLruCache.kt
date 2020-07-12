@@ -306,7 +306,7 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
                 if (Environment.getExternalStorageState() === Environment.MEDIA_MOUNTED ||
                     !Utils.isExternalStorageRemovable()
                 ) Utils.getExternalCacheDir(context)
-                    .path else context.cacheDir.path
+                    ?.path else context.cacheDir.path
             return File(cachePath + File.separator + uniqueName)
         }
 
