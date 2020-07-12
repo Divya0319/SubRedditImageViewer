@@ -22,3 +22,7 @@
 So, to resolve those dependencies, it is assumed the only app module will depend on the classes of imageloader module, and not vice versa.Hence, some of the classes from app module needed to be moved inside the imageloader module to resolve the circular dependency issue.
 
 * The app is not implementing using databinding as of now, but can be done in future.
+
+* The solution is not yet complete, and also the caching mechanism used is LruCache only, but DiskLruCache class and its methods are created, the things remaining are a way to integrate it properly, as they require a context in their method parameters, and that can be provided by Dagger only, and its still not clear how to provide them context in a multi-module project using Dagger.
+
+* The app's overall UI flow is working somewhat as said, images populating in list, and opening in fullscreen when an image is clicked.
