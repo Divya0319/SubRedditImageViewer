@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.assignment.imageloader.ImagesListAdapter
-import com.assignment.imageloader.SubRedditJsonResponse
 import com.assignment.imagessubredditviewer.commons.Utils
 import com.assignment.imagessubredditviewer.network.ApiResponse
 import com.assignment.imagessubredditviewer.network.Status
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     private lateinit var mainActivityViewModel: MainActivityViewModel
 
-    private lateinit var mImageUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>
+    private lateinit var mImageUrls: MutableList<String>
     private lateinit var mImageListAdapter: ImagesListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,15 +98,18 @@ class MainActivity : AppCompatActivity() {
     private fun renderSuccessResponse(data: JsonElement?) {
         val jsonObject = data?.asJsonObject
         val jsonPOJO = gson.fromJson(jsonObject.toString(), SubRedditJsonResponse::class.java)
-        for (i in jsonPOJO.data?.children!!.indices) {
-            mImageUrls.add(jsonPOJO.data?.children!![i])
-        }
-        mImageListAdapter.setValues(mImageUrls)
-        mImageListAdapter.notifyDataSetChanged()
-
 
         Log.d("----", "-----------------------------------")
         Log.d("ImagesResponse", Utils.toPrettyFormat(jsonObject.toString()))
         Log.d("----", "-----------------------------------")
+
+        for (i in jsonPOJO.data?.children!!.indices) {
+            val imageUrl = jsonPOJO.data?.children!![i].data!!.url
+            if (imageUrl.endsWith(".jpg") || imageUrl.endsWith("png"))
+                mImageUrls.add(imageUrl)
+        }
+        mImageListAdapter.setValues(mImageUrls)
+        mImageListAdapter.notifyDataSetChanged()
+
     }
 }

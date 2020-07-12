@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class ImagesListAdapter(
     val context: Context,
-    private var imagesUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>
+    private var imagesUrls: MutableList<String>
 ) : RecyclerView.Adapter<ImagesListAdapter.ImagesViewHolder>() {
 
     private lateinit var imageDownloadTask: ImageDownloadTask
@@ -29,18 +29,20 @@ class ImagesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
-        val imagesData = imagesUrls[position].data
-        val bmp = holder.cache.getImageFromWarehouse(imagesData?.url)
+        val bmp = holder.cache.getImageFromWarehouse(imagesUrls[position])
         if (bmp != null) {
             holder.ivImage.setImageBitmap(bmp)
         } else {
             holder.ivImage.setImageBitmap(null)
             imageDownloadTask = ImageDownloadTask(this, 300, 300)
-            imageDownloadTask.execute(imagesData?.url)
+            imageDownloadTask.execute(imagesUrls[position])
         }
+
     }
 
-    fun setValues(imagesUrls: MutableList<SubRedditJsonResponse.DataBeanX.ChildrenBean>) {
+    fun setValues(
+        imagesUrls: MutableList<String>
+    ) {
         this.imagesUrls = imagesUrls
     }
 

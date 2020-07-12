@@ -50,17 +50,17 @@ class ImageDownloadTask constructor() : AsyncTask<String, Void, Bitmap>() {
         desireWidth: Int,
         desireHeight: Int
     ) : this() {
-        this.cache = cache;
+        this.cache = cache
 
-        this.ivImageView = ivImageView;
+        this.ivImageView = ivImageView
 
-        this.desiredHeight = desireHeight;
+        this.desiredHeight = desireHeight
 
-        this.desiredWidth = desireWidth;
+        this.desiredWidth = desireWidth
     }
 
     override fun doInBackground(vararg params: String?): Bitmap? {
-        imageUrl = params[0];
+        imageUrl = params[0]
 
         return getImage(imageUrl!!)
     }
