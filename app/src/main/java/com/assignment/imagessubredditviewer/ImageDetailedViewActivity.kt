@@ -1,12 +1,10 @@
 package com.assignment.imagessubredditviewer
 
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.assignment.imagessubredditviewer.commons.Constants
 
 class ImageDetailedViewActivity : AppCompatActivity() {
