@@ -1,4 +1,11 @@
-package com.assignment.imageloader;
+package com.assignment.imageloader
+
+import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.content.Context
+import android.graphics.Bitmap
+import android.os.Environment
+import java.io.File
 
 /*
  * Copyright (C) 2012 The Android Open Source Project
@@ -14,52 +21,43 @@ package com.assignment.imageloader;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Environment;
-import android.os.StatFs;
-import java.io.File;
-/**
+ */ /**
  * Class containing some static utility methods.
  */
-public class Utils {
-    public static final int IO_BUFFER_SIZE = 8 * 1024;
-    private Utils() {};
+object Utils {
+    const val IO_BUFFER_SIZE = 8 * 1024
+
     /**
      * Workaround for bug pre-Froyo, see here for more info:
      * http://android-developers.blogspot.com/2011/09/androids-http-clients.html
      */
-    public static void disableConnectionReuseIfNecessary() {
+    fun disableConnectionReuseIfNecessary() {
         // HTTP connection reuse which was buggy pre-froyo
         if (hasHttpConnectionBug()) {
-            System.setProperty("http.keepAlive", "false");
+            System.setProperty("http.keepAlive", "false")
         }
     }
+
     /**
      * Get the size in bytes of a bitmap.
      * @param bitmap bitmap passed
      * @return size in bytes
      */
     @SuppressLint("NewApi")
-    public static int getBitmapSize(Bitmap bitmap) {
-
-            return bitmap.getByteCount();
-
+    fun getBitmapSize(bitmap: Bitmap): Int {
+        return bitmap.byteCount
     }
+
     /**
      * Check if external storage is built-in or removable.
      *
      * @return True if external storage is removable (like an SD card), false
-     *         otherwise.
+     * otherwise.
      */
-    @SuppressLint("NewApi")
-    public static boolean isExternalStorageRemovable() {
-            return Environment.isExternalStorageRemovable();
-    }
+    @get:SuppressLint("NewApi")
+    val isExternalStorageRemovable: Boolean
+        get() = Environment.isExternalStorageRemovable()
+
     /**
      * Get the external app cache directory.
      *
@@ -67,14 +65,17 @@ public class Utils {
      * @return The external cache dir
      */
     @SuppressLint("NewApi")
-    public static File getExternalCacheDir(Context context) {
+    fun getExternalCacheDir(context: Context): File? {
         if (hasExternalCacheDir()) {
-            return context.getExternalCacheDir();
+            return context.externalCacheDir
         }
         // Before Froyo we need to construct the external cache dir ourselves
-        final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
-        return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
+        val cacheDir = "/Android/data/" + context.packageName + "/cache/"
+        return File(
+            Environment.getExternalStorageDirectory().path + cacheDir
+        )
     }
+
     /**
      * Check how much usable space is available at a given path.
      *
@@ -82,42 +83,47 @@ public class Utils {
      * @return The space available in bytes
      */
     @SuppressLint("NewApi")
-    public static long getUsableSpace(File path) {
-            return path.getUsableSpace();
+    fun getUsableSpace(path: File): Long {
+        return path.usableSpace
     }
+
     /**
      * Get the memory class of this device (approx. per-app memory limit)
      *
      * @param context
      * @return
      */
-    public static int getMemoryClass(Context context) {
-        return ((ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE)).getMemoryClass();
+    fun getMemoryClass(context: Context): Int {
+        return (context.getSystemService(
+            Context.ACTIVITY_SERVICE
+        ) as ActivityManager).memoryClass
     }
+
     /**
      * Check if OS version has a http URLConnection bug. See here for more information:
      * http://android-developers.blogspot.com/2011/09/androids-http-clients.html
      *
      * @return
      */
-    public static boolean hasHttpConnectionBug() {
-        return false;
+    fun hasHttpConnectionBug(): Boolean {
+        return false
     }
+
     /**
      * Check if OS version has built-in external cache dir method.
      *
      * @return
      */
-    public static boolean hasExternalCacheDir() {
-        return true;
+    fun hasExternalCacheDir(): Boolean {
+        return true
     }
+
     /**
      * Check if ActionBar is available.
      *
      * @return
      */
-    public static boolean hasActionBar() {
-        return true;
+    fun hasActionBar(): Boolean {
+        return true
     }
 }
