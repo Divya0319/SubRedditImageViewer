@@ -1,4 +1,4 @@
-package com.assignment.imageloader
+package com.assignment.imageloader.cachemanagement
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,6 +6,8 @@ import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Log
+import com.assignment.imageloader.BuildConfig
+import com.assignment.imageloader.Utils
 import java.io.*
 import java.net.URLEncoder
 import java.util.*
@@ -133,7 +135,10 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
                 return BitmapFactory.decodeFile(file)
             } else {
                 val existingFile =
-                    createFilePath(mCacheDir, key)
+                    createFilePath(
+                        mCacheDir,
+                        key
+                    )
                 if (File(existingFile).exists()) {
                     put(key, existingFile)
                     if (BuildConfig.DEBUG) {
@@ -162,7 +167,10 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
         }
         // Now check if there's an actual file that exists based on the key
         val existingFile =
-            createFilePath(mCacheDir, key)
+            createFilePath(
+                mCacheDir,
+                key
+            )
         if (File(existingFile).exists()) {
             // File found, add it to the HashMap for future use
             put(key, existingFile)
@@ -175,7 +183,9 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
      * Removes all disk cache entries from this instance cache dir
      */
     fun clearCache() {
-        clearCache(mCacheDir)
+        clearCache(
+            mCacheDir
+        )
     }
 
     /**
@@ -185,7 +195,10 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
      * @return
      */
     fun createFilePath(key: String): String? {
-        return createFilePath(mCacheDir, key)
+        return createFilePath(
+            mCacheDir,
+            key
+        )
     }
 
     /**
@@ -254,7 +267,10 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
             return if (cacheDir.isDirectory && cacheDir.canWrite()
                 && Utils.getUsableSpace(cacheDir) > maxByteSize
             ) {
-                DiskLruCache(cacheDir, maxByteSize)
+                DiskLruCache(
+                    cacheDir,
+                    maxByteSize
+                )
             } else null
         }
 
@@ -271,7 +287,9 @@ class DiskLruCache private constructor(private val mCacheDir: File, maxByteSize:
                     context,
                     uniqueName
                 )
-            clearCache(cacheDir)
+            clearCache(
+                cacheDir
+            )
         }
 
         /**

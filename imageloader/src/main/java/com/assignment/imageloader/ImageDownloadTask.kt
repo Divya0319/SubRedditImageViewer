@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.ImageView
+import com.assignment.imageloader.cachemanagement.ImagesCache
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL

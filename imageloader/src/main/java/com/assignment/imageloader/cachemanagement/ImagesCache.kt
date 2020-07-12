@@ -1,4 +1,4 @@
-package com.assignment.imageloader
+package com.assignment.imageloader.cachemanagement
 
 import android.graphics.Bitmap
 import androidx.collection.LruCache
@@ -11,13 +11,12 @@ open class ImagesCache {
 
     companion object {
         var cache: ImagesCache? = null
-        const val DISK_CACHE_SIZE = 1024 * 1024 * 10
-        const val DISK_CACHE_SUBDIR = "images"
 
 
         fun getInstance(): ImagesCache {
             if (cache == null) {
-                cache = ImagesCache()
+                cache =
+                    ImagesCache()
             }
             return cache!!
         }
